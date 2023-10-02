@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <include file="config/liquibase/changelogs/20230929100000_create_table_account.xml" />
+    <include file="/config/liquibase/changelogs/20230929100000_create_table_account.xml" />
     <include file="config/liquibase/changelogs/20230929110000_create_table_wallet.xml" />
     <include file="config/liquibase/changelogs/20230929120000_create_table_transaction.xml" />
 

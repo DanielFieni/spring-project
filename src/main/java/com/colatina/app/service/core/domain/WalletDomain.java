@@ -5,19 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class AccountInfoDomain {
+public class WalletDomain {
 
     private Integer id;
-    private String name;
-    private String lastName;
-    private WalletDomain wallet;
-    private AccountStatus status;
 
-    public boolean isActive(){
-        return this.status.equals(AccountStatus.ACTIVE);
-    }
+    @NotNull
+    private BigDecimal balance;
+
+    @NotNull
+    private AccountStatus status;
 
 }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,5 +24,21 @@ public class TransactionAdapter implements TransactionGateway {
     public List<TransactionDomain> getAccountStatement(final Integer accountId, final LocalDateTime startDate, final LocalDateTime endDate) {
         return transactionMapper.toDto(transactionRepository.findAllByAccountOriginIdAndCreatedAtBetween(accountId, startDate, endDate));
     }
+
+    @Override
+    public BigDecimal getAccountTransactionWithOrigin(Integer accountId, LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionRepository.getTotalValueAccountOriginIdAndCreatedAtBetween(accountId, startDate, endDate);
+    }
+
+    @Override
+    public BigDecimal getAccountTransactionWithDestination(Integer accountId, LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionRepository.getTotalValueAccountDestinationIdAndCreatedAtBetween(accountId, startDate, endDate);
+    }
+
+    @Override
+    public List<TransactionDomain> getStatusTransaction(Integer id, String status) {
+        return transactionMapper.toDto(transactionRepository.findAllByAccountOriginIdAndTransactionStatus(id, status));
+    }
+
 
 }

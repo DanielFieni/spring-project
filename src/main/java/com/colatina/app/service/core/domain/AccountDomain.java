@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.Period;
 
 @Getter
 @Setter
@@ -33,4 +34,12 @@ public class AccountDomain {
     @NotNull
     @Past
     private LocalDate birthDate;
+
+    private WalletDomain wallet;
+
+    public boolean checkAge() {
+        int years = Period.between(this.getBirthDate(), LocalDate.now()).getYears();
+        return years > 18;
+    }
+
 }

@@ -10,6 +10,6 @@ public interface AccountGateway {
 
     void changeStatus(AccountStatus status, Integer id);
 
-    TransactionDomain checkTransaction(TransactionDomain transaction);
+    AccountDomain getAccountById(Integer id);
 
 }

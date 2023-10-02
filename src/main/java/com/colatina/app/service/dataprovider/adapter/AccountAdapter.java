@@ -26,21 +26,18 @@ import java.math.BigDecimal;
 public class AccountAdapter implements AccountGateway {
 
     private final AccountMapper mapper;
-    private final TransactionMapper transactionMapper;
     private final AccountRepository repository;
-    private final WalletRepository walletRepository;
-    private final TransactionRepository transactionRepository;
     private final WalletMapper walletMapper;
 
     @Override
     @Transactional
     public AccountDomain create(AccountDomain account) {
         AccountEntity entity = mapper.toEntity(account);
-        entity = repository.save(entity);
         WalletEntity walletEntity = new WalletEntity();
         walletEntity.setAccount(entity);
         walletEntity.setBalance(BigDecimal.ZERO);
-        walletRepository.save(walletEntity);
+        entity.setWallet(walletEntity);
+        repository.save(entity);
         return mapper.toDto(entity);
     }
 
@@ -52,17 +49,13 @@ public class AccountAdapter implements AccountGateway {
     }
 
     @Override
-    @Transactional
-    public TransactionDomain checkTransaction(TransactionDomain transaction) {
-        TransactionEntity entity = transactionMapper.toEntity(transaction);
-        WalletEntity walletEntity = walletMapper.toEntity(transaction.getAccountOrigin().getWallet());
-        walletEntity.setAccount(entity.getAccountOrigin());
-        walletRepository.save(walletEntity);
-        walletEntity = walletMapper.toEntity(transaction.getAccountDestination().getWallet());
-        walletEntity.setAccount(entity.getAccountDestination());
-        walletRepository.save(walletEntity);
-        return transactionMapper.toDto(transactionRepository.save(entity));
+    public AccountDomain getAccountById(Integer account_id) {
+        AccountEntity entity = findByIdAccount(account_id);
+        AccountDomain domain = mapper.toDto(entity);
+        domain.setWallet(walletMapper.toDto(entity.getWallet()));
+        return domain;
     }
+
 
     private AccountEntity findByIdAccount(Integer id) {
         return repository.findById(id).orElseThrow(() -> new BusinessException("User not found"));

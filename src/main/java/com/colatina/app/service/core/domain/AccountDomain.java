@@ -35,11 +35,16 @@ public class AccountDomain {
     @Past
     private LocalDate birthDate;
 
+    @NotNull
     private WalletDomain wallet;
 
     public boolean checkAge() {
         int years = Period.between(this.getBirthDate(), LocalDate.now()).getYears();
         return years > 18;
+    }
+
+    public boolean isActive(){
+        return this.status.equals(AccountStatus.ACTIVE);
     }
 
 }

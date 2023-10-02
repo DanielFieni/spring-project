@@ -21,7 +21,7 @@ public class WalletEntity {
     @Column(name = "balance")
     private BigDecimal balance;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
     private AccountEntity account;
 

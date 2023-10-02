@@ -13,11 +13,7 @@ public class AccountInfoDomain {
     private Integer id;
     private String name;
     private String lastName;
-    private WalletDomain wallet;
+    @NotNull
     private AccountStatus status;
-
-    public boolean isActive(){
-        return this.status.equals(AccountStatus.ACTIVE);
-    }
 
 }

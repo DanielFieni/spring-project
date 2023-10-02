@@ -31,9 +31,8 @@ public class AccountEntity implements Serializable {
     @Column(name = "status")
     private String status;
 
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "wallet_id")
-//    private WalletEntity walletEntity;
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private WalletEntity wallet;
 
     @Column(name = "birth_date")
     private LocalDate birthDate;

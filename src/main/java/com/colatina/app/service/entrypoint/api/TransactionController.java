@@ -38,10 +38,10 @@ public class TransactionController {
     }
 
     @GetMapping("/transaction-origin/{account_id}")
-    public ResponseEntity<BigDecimal> getAccountTransactionWithOrigin(@PathVariable("account_id") Integer accountId,
+    public ResponseEntity<BigDecimal> getTotalBalanceTransactionWithOrigin(@PathVariable("account_id") Integer accountId,
                                                                       @RequestHeader("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
                                                                       @RequestHeader("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
-        return new ResponseEntity<>(getAccountStatementUseCase.getAccountTransactionWithOrigin(accountId, startDate, endDate), HttpStatus.OK);
+        return new ResponseEntity<>(getAccountStatementUseCase.getTotalBalanceTransactionWithOrigin(accountId, startDate, endDate), HttpStatus.OK);
     }
 
     @GetMapping("/transaction-destination/{account_id}")
@@ -56,7 +56,5 @@ public class TransactionController {
         makeTransactionUseCase.execute(transaction);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-
 
 }

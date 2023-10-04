@@ -29,9 +29,12 @@ public class MakeTransactionUseCase {
         AccountDomain accountDestination = accountGateway.getAccountById(transaction.getAccountDestination().getId());
 
         verifyAccountIsActive(accountOrigin, accountDestination);
+
         BigDecimal balanceOrigin = balanceAccount(accountOrigin);
         BigDecimal result = subtractBalanceWithTransaction(balanceOrigin, transaction.getValue());
+
         verifyBalanceSufficient(result);
+
         accountOrigin.getWallet().setBalance(result);
         accountDestination.getWallet().setBalance(balanceAccount(accountDestination).add(transaction.getValue()));
         transactionGateway.checkTransaction(transaction, accountOrigin, accountDestination);

@@ -33,12 +33,16 @@ public class AccountAdapter implements AccountGateway {
     @Transactional
     public AccountDomain create(AccountDomain account) {
         AccountEntity entity = mapper.toEntity(account);
-        WalletEntity walletEntity = new WalletEntity();
-        walletEntity.setAccount(entity);
-        walletEntity.setBalance(BigDecimal.ZERO);
-        entity.setWallet(walletEntity);
+//        entity.setWallet(createWallet(entity));
         repository.save(entity);
         return mapper.toDto(entity);
+    }
+
+    private WalletEntity createWallet(AccountEntity account) {
+        WalletEntity walletEntity = new WalletEntity();
+        walletEntity.setAccount(account);
+        walletEntity.setBalance(BigDecimal.ZERO);
+        return walletEntity;
     }
 
     @Override

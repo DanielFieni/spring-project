@@ -42,19 +42,25 @@ public class TransactionAdapter implements TransactionGateway {
     @Override
     @Transactional
     public TransactionDomain checkTransaction(TransactionDomain transaction, AccountDomain origin, AccountDomain destination) {
-        WalletEntity walletEntity = walletMapper.toEntity(origin.getWallet());
-        walletEntity.setAccount(accountMapper.toEntity(origin));
-        walletRepository.save(walletEntity);
-        walletEntity = walletMapper.toEntity(destination.getWallet());
-        walletEntity.setAccount(accountMapper.toEntity(origin));
-        walletRepository.save(walletEntity);
+        saveWallet(origin);
+        saveWallet(destination);
         return transactionMapper.toDto(transactionRepository.save(transactionMapper.toEntity(transaction)));
     }
 
-    private WalletEntity findByIdWallet(Integer wallet_id) {
-        return walletRepository.findById(wallet_id).orElseThrow(
-                () -> new BusinessException("Wallet not found")
-        );
+    @Override
+    public List<TransactionDomain> getAllTransactionWithDate(LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionMapper.toDto(transactionRepository.findAllByCreatedAtBetween(startDate, endDate));
+    }
+
+    @Override
+    public List<TransactionDomain> getTransactionThatContainAccountId(Integer accountId, LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionMapper.toDto(transactionRepository.findAllByAccountOriginIdOrAccountDestinationIdAndCreatedAtBetween(accountId, accountId, startDate, endDate));
+    }
+
+    private void saveWallet(AccountDomain account) {
+        WalletEntity walletEntity = walletMapper.toEntity(account.getWallet());
+        walletEntity.setAccount(accountMapper.toEntity(account));
+        walletRepository.save(walletEntity);
     }
 
     @Override

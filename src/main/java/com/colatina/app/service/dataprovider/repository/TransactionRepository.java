@@ -15,6 +15,8 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Integer> {
     List<TransactionEntity> findAllByAccountOriginIdAndCreatedAtBetween(Integer accountId, LocalDateTime startDate, LocalDateTime endDate);
+    List<TransactionEntity> findAllByCreatedAtBetween(LocalDateTime start_date, LocalDateTime end_date);
+    List<TransactionEntity> findAllByAccountOriginIdOrAccountDestinationIdAndCreatedAtBetween(Integer originId, Integer destinationId, LocalDateTime startDate, LocalDateTime endDate);
 
     // All amounts transferred by an account
     @Query(
@@ -30,7 +32,7 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
     )
     BigDecimal getTotalValueAccountDestinationIdAndCreatedAtBetween(Integer accountId, LocalDateTime startDate, LocalDateTime endDate);
 
-    // Retornar todos as transições em estão em determinado estado
+    // All transactions that are in a certain state
     @Query(
             "SELECT t FROM TransactionEntity t WHERE" +
                     " t.accountOrigin.id = :id AND t.status = :status"

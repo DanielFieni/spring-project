@@ -21,7 +21,7 @@ public class GetAccountStatementUseCase {
         return transactionGateway.getAccountStatement(accountId, startDate, endDate);
     }
 
-    public BigDecimal getAccountTransactionWithOrigin(Integer accountId, LocalDateTime startDate, LocalDateTime endDate) {
+    public BigDecimal getTotalBalanceTransactionWithOrigin(Integer accountId, LocalDateTime startDate, LocalDateTime endDate) {
         return transactionGateway.getAccountTransactionWithOrigin(accountId, startDate, endDate);
     }
 
@@ -31,6 +31,14 @@ public class GetAccountStatementUseCase {
 
     public List<TransactionDomain> getStatusTransaction(Integer id, String status) {
         return transactionGateway.getStatusTransaction(id, status);
+    }
+
+    public List<TransactionDomain> getAllTransactionWithDate(LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionGateway.getAllTransactionWithDate(startDate, endDate);
+    }
+
+    public List<TransactionDomain> getTransactionThatContainAccountId(Integer accountId, LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionGateway.getTransactionThatContainAccountId(accountId, startDate, endDate);
     }
 
 }

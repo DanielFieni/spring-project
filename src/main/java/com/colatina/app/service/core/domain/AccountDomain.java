@@ -35,7 +35,6 @@ public class AccountDomain {
     @Past
     private LocalDate birthDate;
 
-    @NotNull
     private WalletDomain wallet;
 
     public boolean checkAge() {

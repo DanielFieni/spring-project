@@ -6,7 +6,7 @@ O SGT tem a função de gerenciar as transações de usuários cadastrados no si
 
 * CreateAccountUseCase
   * ~~Só permitir usuários maiores de idade(18 anos) a se cadastrarem no sistema;~~
-  * O usuário não pode ter o cpf negativado para se cadastrar no sistema;
+  * ~~O usuário não pode ter o cpf negativado para se cadastrar no sistema;~~
   * ~~Sempre que um usuário for cadastrado, uma carteira deve ser criada e associada a ele.~~
 * ChangeStatusUseCase
   * ~~Usuário pode bloquear e desbloquear sua conta.~~ 
@@ -17,4 +17,4 @@ O SGT tem a função de gerenciar as transações de usuários cadastrados no si
 * MakeTransactionUseCase
   * ~~Usário que está transferindo e que está recebendo a trasanção devem estar ativos no sistema;~~
   * ~~Deve haver saldo suficiente na carteira do usuário que está transferindo~~;
-  * Sistema deve debitar e creditar corretamente das contas(ambas as operações devem ocorrer com sucesso);
+  * ~~Sistema deve debitar e creditar corretamente das contas(ambas as operações devem ocorrer com sucesso);~~

@@ -1,6 +1,6 @@
 package com.colatina.app.service.dataprovider.adapter;
 
-import com.colatina.app.service.core.gateway.BalanceGateway;
+import com.colatina.app.service.core.gateway.WalletGateway;
 import com.colatina.app.service.dataprovider.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
-public class BalanceAdapter implements BalanceGateway {
+public class WalletAdapter implements WalletGateway {
 
     private final WalletRepository walletRepository;
 

@@ -30,25 +30,40 @@ public class TransactionController {
         return new ResponseEntity<>(accountStatement, accountStatement.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
 
-    @GetMapping("/transaction-status/{account_id}")
+    @GetMapping("/status/{account_id}")
     public ResponseEntity<List<TransactionDomain>> getStatusTransaction(@PathVariable("account_id") Integer accountId,
                                                                         @RequestParam(name = "status") String status){
         final List<TransactionDomain> transactions = getAccountStatementUseCase.getStatusTransaction(accountId, status);
         return new ResponseEntity<>(transactions, transactions.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
 
-    @GetMapping("/transaction-origin/{account_id}")
+    @GetMapping("/origin-balance/{account_id}")
     public ResponseEntity<BigDecimal> getTotalBalanceTransactionWithOrigin(@PathVariable("account_id") Integer accountId,
                                                                       @RequestHeader("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
                                                                       @RequestHeader("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
         return new ResponseEntity<>(getAccountStatementUseCase.getTotalBalanceTransactionWithOrigin(accountId, startDate, endDate), HttpStatus.OK);
     }
 
-    @GetMapping("/transaction-destination/{account_id}")
+    @GetMapping("/destination-balance/{account_id}")
     public ResponseEntity<BigDecimal> getAccountTransactionWithDestination(@PathVariable("account_id") Integer accountId,
                                                                            @RequestHeader("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
                                                                            @RequestHeader("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
         return new ResponseEntity<>(getAccountStatementUseCase.getAccountTransactionWithDestination(accountId, startDate, endDate), HttpStatus.OK);
+    }
+
+    @GetMapping("/date")
+    public ResponseEntity<List<TransactionDomain>> getAllTransactionWithDate(@RequestHeader("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+                                                                            @RequestHeader("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+        final List<TransactionDomain> transactions = getAccountStatementUseCase.getAllTransactionWithDate(startDate, endDate);
+        return new ResponseEntity<>(transactions, transactions.isEmpty()? HttpStatus.NO_CONTENT: HttpStatus.OK);
+    }
+
+    @GetMapping("/accountId/{account_id}")
+    public ResponseEntity<List<TransactionDomain>> getTransactionThatContainAccountId(@PathVariable("account_id") Integer accountId,
+                                                                                      @RequestHeader("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+                                                                                      @RequestHeader("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+        final List<TransactionDomain> transactions = getAccountStatementUseCase.getTransactionThatContainAccountId(accountId, startDate, endDate);
+        return new ResponseEntity<>(transactions, transactions.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
 
     @PostMapping

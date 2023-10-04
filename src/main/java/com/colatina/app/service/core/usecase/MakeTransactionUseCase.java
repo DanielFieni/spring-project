@@ -2,13 +2,12 @@ package com.colatina.app.service.core.usecase;
 
 
 import com.colatina.app.service.core.domain.AccountDomain;
-import com.colatina.app.service.core.domain.AccountInfoDomain;
 import com.colatina.app.service.core.domain.TransactionDomain;
+import com.colatina.app.service.core.domain.WalletDomain;
 import com.colatina.app.service.core.exception.BusinessException;
 import com.colatina.app.service.core.gateway.AccountGateway;
-import com.colatina.app.service.core.gateway.BalanceGateway;
+import com.colatina.app.service.core.gateway.WalletGateway;
 import com.colatina.app.service.core.gateway.TransactionGateway;
-import com.colatina.app.service.dataprovider.adapter.BalanceAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class MakeTransactionUseCase {
 
-    private final BalanceGateway balanceGateway;
+    private final WalletGateway walletGateway;
     private final TransactionGateway transactionGateway;
     private final AccountGateway accountGateway;
 
@@ -31,16 +30,25 @@ public class MakeTransactionUseCase {
         verifyAccountIsActive(accountOrigin, accountDestination);
 
         BigDecimal balanceOrigin = balanceAccount(accountOrigin);
-        BigDecimal result = subtractBalanceWithTransaction(balanceOrigin, transaction.getValue());
+        BigDecimal result = subtractBalanceWithTransactionValue(balanceOrigin, transaction.getValue());
 
-        verifyBalanceSufficient(result);
+        checkSufficientBalance(result);
 
         accountOrigin.getWallet().setBalance(result);
         accountDestination.getWallet().setBalance(balanceAccount(accountDestination).add(transaction.getValue()));
         transactionGateway.checkTransaction(transaction, accountOrigin, accountDestination);
     }
 
-    private boolean verifyBalanceSufficient(BigDecimal balance){
+    private void creditAndDebit(
+            BigDecimal result,
+            WalletDomain walletOrigin,
+            WalletDomain walletDestination,
+            BigDecimal balanceDestination){
+        walletOrigin.setBalance(result);
+        walletDestination.setBalance(balanceDestination.add(result));
+    }
+
+    private boolean checkSufficientBalance(BigDecimal balance){
         if(balance.compareTo(BigDecimal.ZERO) < 0) {
             throw new BusinessException("Balance is insufficient");
         }
@@ -49,16 +57,16 @@ public class MakeTransactionUseCase {
 
     private boolean verifyAccountIsActive(AccountDomain accountOrigin, AccountDomain accountDestination) {
         if(!accountOrigin.isActive() || !accountDestination.isActive()) {
-            throw new BusinessException("Account not active");
+            throw new BusinessException("Account is not active");
         }
         return true;
     }
 
     private BigDecimal balanceAccount(AccountDomain account){
-        return new BigDecimal(balanceGateway.get(account.getId()));
+        return new BigDecimal(walletGateway.get(account.getId()));
     }
 
-    private BigDecimal subtractBalanceWithTransaction(BigDecimal balanceAccount, BigDecimal valueTransaction) {
+    private BigDecimal subtractBalanceWithTransactionValue(BigDecimal balanceAccount, BigDecimal valueTransaction) {
         return balanceAccount.subtract(valueTransaction);
     }
 

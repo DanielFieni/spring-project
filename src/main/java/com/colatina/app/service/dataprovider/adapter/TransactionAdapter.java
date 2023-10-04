@@ -47,6 +47,12 @@ public class TransactionAdapter implements TransactionGateway {
         return transactionMapper.toDto(transactionRepository.save(transactionMapper.toEntity(transaction)));
     }
 
+    private void saveWallet(AccountDomain account) {
+        WalletEntity walletEntity = walletMapper.toEntity(account.getWallet());
+        walletEntity.setAccount(accountMapper.toEntity(account));
+        walletRepository.save(walletEntity);
+    }
+
     @Override
     public List<TransactionDomain> getAllTransactionWithDate(LocalDateTime startDate, LocalDateTime endDate) {
         return transactionMapper.toDto(transactionRepository.findAllByCreatedAtBetween(startDate, endDate));
@@ -55,12 +61,6 @@ public class TransactionAdapter implements TransactionGateway {
     @Override
     public List<TransactionDomain> getTransactionThatContainAccountId(Integer accountId, LocalDateTime startDate, LocalDateTime endDate) {
         return transactionMapper.toDto(transactionRepository.findAllByAccountOriginIdOrAccountDestinationIdAndCreatedAtBetween(accountId, accountId, startDate, endDate));
-    }
-
-    private void saveWallet(AccountDomain account) {
-        WalletEntity walletEntity = walletMapper.toEntity(account.getWallet());
-        walletEntity.setAccount(accountMapper.toEntity(account));
-        walletRepository.save(walletEntity);
     }
 
     @Override

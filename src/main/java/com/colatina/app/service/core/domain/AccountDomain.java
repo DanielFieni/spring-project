@@ -39,7 +39,7 @@ public class AccountDomain {
 
     public boolean checkAge() {
         int years = Period.between(this.getBirthDate(), LocalDate.now()).getYears();
-        return years > 18;
+        return years >= 18;
     }
 
     public boolean isActive(){

@@ -20,11 +20,11 @@ public class CreateAccountUseCase {
 
     public void execute(AccountDomain account) {
         if(!account.checkAge()) {
-            throw new BusinessException("User age incorrect");
+            throw new BusinessException("Incorrect user age");
         }
 
         if(cpfValidator.isNegativeCpf(account.getDocument())) {
-            throw new BusinessException("CPF invalid");
+            throw new BusinessException("invalid CPF");
         }
 
         accountGateway.create(account);

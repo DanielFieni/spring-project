@@ -33,7 +33,7 @@ public class AccountAdapter implements AccountGateway {
     @Transactional
     public AccountDomain create(AccountDomain account) {
         AccountEntity entity = mapper.toEntity(account);
-//        entity.setWallet(createWallet(entity));
+        entity.setWallet(createWallet(entity));
         repository.save(entity);
         return mapper.toDto(entity);
     }

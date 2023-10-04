@@ -18,7 +18,7 @@ public class WalletController {
 
     @GetMapping("/account-balance/{account_id}")
     public ResponseEntity<String> getAccountBalance(@PathVariable("account_id") Integer accountId) {
-        return new ResponseEntity<>(accountBalanceUseCase.getBalanceGateway(accountId), HttpStatus.OK);
+        return new ResponseEntity<>(accountBalanceUseCase.getWalletGateway(accountId), HttpStatus.OK);
     }
 
 }

@@ -5,12 +5,8 @@ import com.colatina.app.service.configuration.mapper.TransactionMapper;
 import com.colatina.app.service.configuration.mapper.WalletMapper;
 import com.colatina.app.service.core.domain.AccountDomain;
 import com.colatina.app.service.core.domain.TransactionDomain;
-import com.colatina.app.service.core.exception.BusinessException;
 import com.colatina.app.service.core.gateway.TransactionGateway;
-import com.colatina.app.service.dataprovider.entity.AccountEntity;
-import com.colatina.app.service.dataprovider.entity.TransactionEntity;
 import com.colatina.app.service.dataprovider.entity.WalletEntity;
-import com.colatina.app.service.dataprovider.repository.AccountRepository;
 import com.colatina.app.service.dataprovider.repository.TransactionRepository;
 import com.colatina.app.service.dataprovider.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +26,6 @@ public class TransactionAdapter implements TransactionGateway {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
     private final WalletMapper walletMapper;
-    private final AccountRepository accountRepository;
     private final WalletRepository walletRepository;
     private final AccountMapper accountMapper;
 

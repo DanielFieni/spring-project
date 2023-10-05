@@ -2,7 +2,6 @@ package com.colatina.app.service.core.usecase;
 
 
 import com.colatina.app.service.core.domain.TransactionDomain;
-import com.colatina.app.service.core.domain.enumeration.TransactionStatus;
 import com.colatina.app.service.core.gateway.TransactionGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

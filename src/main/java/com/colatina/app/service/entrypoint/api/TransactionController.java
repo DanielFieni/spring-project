@@ -1,7 +1,6 @@
 package com.colatina.app.service.entrypoint.api;
 
 import com.colatina.app.service.core.domain.TransactionDomain;
-import com.colatina.app.service.core.domain.enumeration.TransactionStatus;
 import com.colatina.app.service.core.usecase.GetAccountStatementUseCase;
 import com.colatina.app.service.core.usecase.MakeTransactionUseCase;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,7 @@ public class TransactionController {
     }
 
     @GetMapping("/status/{account_id}")
-    public ResponseEntity<List<TransactionDomain>> getStatusTransaction(@PathVariable("account_id") Integer accountId,
+    public ResponseEntity<List<TransactionDomain>> getStatusTransactionAccountOrigin(@PathVariable("account_id") Integer accountId,
                                                                         @RequestParam(name = "status") String status){
         final List<TransactionDomain> transactions = getAccountStatementUseCase.getStatusTransaction(accountId, status);
         return new ResponseEntity<>(transactions, transactions.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);

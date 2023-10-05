@@ -3,7 +3,6 @@ package com.colatina.app.service.core.usecase;
 
 import com.colatina.app.service.core.domain.AccountDomain;
 import com.colatina.app.service.core.domain.TransactionDomain;
-import com.colatina.app.service.core.domain.WalletDomain;
 import com.colatina.app.service.core.exception.BusinessException;
 import com.colatina.app.service.core.gateway.AccountGateway;
 import com.colatina.app.service.core.gateway.WalletGateway;
@@ -34,23 +33,23 @@ public class MakeTransactionUseCase {
 
         checkSufficientBalance(result);
 
-        accountOrigin.getWallet().setBalance(result);
-        accountDestination.getWallet().setBalance(balanceAccount(accountDestination).add(transaction.getValue()));
+        creditAndDebit(accountOrigin, accountDestination, result, transaction.getValue());
         transactionGateway.checkTransaction(transaction, accountOrigin, accountDestination);
     }
 
     private void creditAndDebit(
+            AccountDomain origin,
+            AccountDomain destination,
             BigDecimal result,
-            WalletDomain walletOrigin,
-            WalletDomain walletDestination,
-            BigDecimal balanceDestination){
-        walletOrigin.setBalance(result);
-        walletDestination.setBalance(balanceDestination.add(result));
+            BigDecimal valueTransaction
+            ){
+        origin.getWallet().setBalance(result);
+        destination.getWallet().setBalance(balanceAccount(destination).add(valueTransaction));
     }
 
     private boolean checkSufficientBalance(BigDecimal balance){
         if(balance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new BusinessException("Balance is insufficient");
+            throw new BusinessException("Balance must be positive");
         }
         return true;
     }

@@ -1,6 +1,5 @@
 package com.colatina.app.service.core.domain;
 
-import com.colatina.app.service.core.domain.enumeration.AccountStatus;
 import lombok.Getter;
 import lombok.Setter;
 
